@@ -9,7 +9,7 @@ export const twitterReducer = (state = {}, action) => {
                 ...state,
                 user: {
                     ...state.user,
-                    [userType]: state.user[varType]
+                    [userType]: varType
                 }
             }
         }
