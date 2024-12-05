@@ -1,28 +1,23 @@
-import {CHANGE_AVATAR,  CHANGE_NAME, CHANGE_STATS} from "../actions/userAction.js";
+import {CHANGE_STATS, CHANGE_USER} from "../actions/userAction.js";
 
 export const twitterReducer = (state = {}, action) => {
     switch (action.type) {
-        case CHANGE_AVATAR:
-            return {
-                ...state,
-                user: {
-                    ...state.user,
-                    avatar: action.payload || state.user.avatar
-                }
-            };
 
-        case CHANGE_NAME:
+        case CHANGE_USER: {
+            const {userType, varType} = action.payload;
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    name: action.payload || state.user.name
+                    [userType]: state.user[varType]
                 }
-            };
+            }
+        }
 
         case CHANGE_STATS: {
             const {statsType, sum} = action.payload;
-            return {...state,
+            return {
+                ...state,
                 stats: {
                     ...state.stats,
                     [statsType]: Math.max(0, state.stats[statsType] + sum),
