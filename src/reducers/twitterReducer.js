@@ -1,4 +1,4 @@
-import {CHANGE_AVATAR, CHANGE_FOLLOWERS, CHANGE_FOLLOWING, CHANGE_NAME} from "../actions/userAction.js";
+import {CHANGE_AVATAR,  CHANGE_NAME, CHANGE_STATS} from "../actions/userAction.js";
 
 export const twitterReducer = (state = {}, action) => {
     switch (action.type) {
@@ -10,6 +10,7 @@ export const twitterReducer = (state = {}, action) => {
                     avatar: action.payload || state.user.avatar
                 }
             };
+
         case CHANGE_NAME:
             return {
                 ...state,
@@ -18,23 +19,17 @@ export const twitterReducer = (state = {}, action) => {
                     name: action.payload || state.user.name
                 }
             };
-        case CHANGE_FOLLOWERS:
-            return {
-                ...state,
+
+        case CHANGE_STATS: {
+            const {statsType, sum} = action.payload;
+            return {...state,
                 stats: {
                     ...state.stats,
-                    followers: Math.max(0, state.stats.followers + action.payload),
-                },
-            };
-        case CHANGE_FOLLOWING:
-            return {
-                ...state,
-                stats: {
-                    ...state.stats,
-                    following: Math.max(0, state.stats.following + action.payload),
-                },
-            };
+                    [statsType]: Math.max(0, state.stats[statsType] + sum),
+                }
+            }}
+
             default:
-            return state;
+                    return state;
     }
 }
